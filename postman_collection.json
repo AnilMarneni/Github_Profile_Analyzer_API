@@ -1,0 +1,253 @@
+{
+  "info": {
+    "name": "GitHub Profile Analyzer API",
+    "description": "Postman Collection for the GitHub Profile Analyzer API - Node.js Intern Assignment. Contains pre-configured requests to test health, stats, search, profiles, and analytical calculations.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "System",
+      "item": [
+        {
+          "name": "Health Check",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/health",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "health"
+              ]
+            },
+            "description": "Checks database connection and server status."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Analytics",
+      "item": [
+        {
+          "name": "Get Stats",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/stats",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "stats"
+              ]
+            },
+            "description": "Gets aggregate statistics across all analyzed profiles (counts, averages, top developer score, common language)."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Profiles",
+      "item": [
+        {
+          "name": "Analyze & Save Profile (Upsert)",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/profile/:username",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "profile",
+                ":username"
+              ],
+              "variable": [
+                {
+                  "key": "username",
+                  "value": "{{testUsername}}",
+                  "description": "The GitHub username to analyze"
+                }
+              ]
+            },
+            "description": "Fetches data from GitHub, calculates metrics (Developer Score, Health, Avg Stars, etc.), and saves or updates the profile in the database."
+          },
+          "response": []
+        },
+        {
+          "name": "Refresh Existing Profile",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/profile/:username/refresh",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "profile",
+                ":username",
+                "refresh"
+              ],
+              "variable": [
+                {
+                  "key": "username",
+                  "value": "{{testUsername}}",
+                  "description": "The GitHub username to refresh"
+                }
+              ]
+            },
+            "description": "Refreshes and updates GitHub profile information. Fails with 404 if profile hasn't been analyzed before."
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Profiles",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/profiles?page=1&limit=10&sort=developer_score",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "profiles"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1",
+                  "description": "Page number (default 1)"
+                },
+                {
+                  "key": "limit",
+                  "value": "10",
+                  "description": "Limit of profiles per page (default 10)"
+                },
+                {
+                  "key": "sort",
+                  "value": "developer_score",
+                  "description": "Sort criteria: followers, developer_score, analyzed_at, id"
+                }
+              ]
+            },
+            "description": "Lists all profiles in database with pagination and sorting."
+          },
+          "response": []
+        },
+        {
+          "name": "Search Profiles",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/profiles/search?q=octo&page=1&limit=5",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "profiles",
+                "search"
+              ],
+              "query": [
+                {
+                  "key": "q",
+                  "value": "octo",
+                  "description": "Keyword to search username or name"
+                },
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "5"
+                }
+              ]
+            },
+            "description": "Searches for profiles in the database matching a specific keyword."
+          },
+          "response": []
+        },
+        {
+          "name": "Get Single Profile Details",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/profiles/:username",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "profiles",
+                ":username"
+              ],
+              "variable": [
+                {
+                  "key": "username",
+                  "value": "{{testUsername}}"
+                }
+              ]
+            },
+            "description": "Retrieves comprehensive information (profile and top 5 repositories) for an analyzed user."
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Profile",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/profiles/:username",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "profiles",
+                ":username"
+              ],
+              "variable": [
+                {
+                  "key": "username",
+                  "value": "{{testUsername}}"
+                }
+              ]
+            },
+            "description": "Deletes profile and all associated top repositories from the database."
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000",
+      "type": "string"
+    },
+    {
+      "key": "testUsername",
+      "value": "octocat",
+      "type": "string"
+    }
+  ]
+}
