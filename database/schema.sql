@@ -1,12 +1,7 @@
--- Create database if not exists (helpful for setup guidelines, though actual database creation is done by admin)
--- CREATE DATABASE IF NOT EXISTS github_analyzer;
--- USE github_analyzer;
-
--- Drop tables if they exist to allow clean re-runs of the schema script
 DROP TABLE IF EXISTS top_repositories;
 DROP TABLE IF EXISTS github_profiles;
 
--- Create github_profiles table
+-- User profile summary metrics
 CREATE TABLE github_profiles (
     id INT AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(255) NOT NULL,
@@ -34,7 +29,7 @@ CREATE TABLE github_profiles (
     INDEX idx_followers (followers)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Create top_repositories table
+-- User's top 5 starred repositories
 CREATE TABLE top_repositories (
     id INT AUTO_INCREMENT PRIMARY KEY,
     profile_id INT NOT NULL,
