@@ -17,9 +17,10 @@ const getGithubHeaders = () => {
 // Fetch profile and repos from GitHub API concurrently
 const fetchGitHubData = async (username) => {
   const headers = getGithubHeaders();
+  const apiUrl = (process.env.GITHUB_API_URL || 'https://api.github.com').replace(/\/$/, '');
   const [profileRes, reposRes] = await Promise.all([
-    axios.get(`https://api.github.com/users/${username}`, { headers }),
-    axios.get(`https://api.github.com/users/${username}/repos?per_page=100`, { headers })
+    axios.get(`${apiUrl}/users/${username}`, { headers }),
+    axios.get(`${apiUrl}/users/${username}/repos?per_page=100`, { headers })
   ]);
   return { profile: profileRes.data, repos: reposRes.data };
 };

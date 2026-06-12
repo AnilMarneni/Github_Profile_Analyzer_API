@@ -60,12 +60,13 @@ const getAllProfiles = async (req, res, next) => {
 
 const searchProfiles = async (req, res, next) => {
   try {
-    const { q, page = 1, limit = 10 } = req.query;
-    if (!q || !q.trim()) {
-      throw new AppError('Query parameter "q" is required', 400);
+    const { q, query, page = 1, limit = 10 } = req.query;
+    const searchVal = q || query;
+    if (!searchVal || !searchVal.trim()) {
+      throw new AppError('Query parameter "q" or "query" is required', 400);
     }
 
-    const result = await githubService.searchProfiles({ q: q.trim(), page, limit });
+    const result = await githubService.searchProfiles({ q: searchVal.trim(), page, limit });
     res.status(200).json({
       success: true,
       message: 'Search completed successfully',
